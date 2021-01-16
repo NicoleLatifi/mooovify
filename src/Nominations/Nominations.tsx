@@ -1,15 +1,15 @@
-import './Results.css';
+import './Nominations.css';
 import Movie from '../Movie/Movie'
 
-function Results(): JSX.Element {
+function Nominations(): JSX.Element {
   const movies = [<Movie />, <Movie />]
-
+  
   return (
     <div>
-      <h2>Results</h2>
+      <h2>Nominations</h2>
       {movies}
     </div>
   );
 }
 
-export default Results;
+export default Nominations;
