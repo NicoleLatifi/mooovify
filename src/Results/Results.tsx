@@ -1,9 +1,10 @@
 import './Results.css';
 import Movie from '../Movie/Movie'
 import { Component } from "react";
+import { JsxEmit } from 'typescript';
 
 interface IProps {
-  searchResults: []
+  searchResults: {Title: string, Year: number}[]
 }
 
 interface IState {
@@ -16,15 +17,27 @@ class Results extends Component<IProps, IState> {
       moviesToDisplay: []
     }
   }
-  
+
   componentDidMount() {
+    console.log("Results componentDidMount called with", this.props.searchResults)
     const foundMovies = this.props.searchResults.map(movie => {
-      return <Movie />
+      return <Movie title={movie.Title} year={movie.Year} />
     })
     this.setState({ moviesToDisplay: foundMovies })
   }
   
-  render(){
+  componentDidUpdate(prevProps: IProps) {
+    if(this.props.searchResults !== prevProps.searchResults) {      
+      console.log("Results componentDidUpdate called with", this.props.searchResults)
+      const foundMovies = this.props.searchResults.map(movie => {
+        console.log(movie)
+        return <Movie title={movie.Title} year={movie.Year} />
+      })
+      this.setState({ moviesToDisplay: foundMovies })
+    }
+  }
+  
+  render() {
     return (
     <div>
       <h2>Results</h2>
