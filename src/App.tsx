@@ -11,7 +11,7 @@ function App(): JSX.Element {
   async function getMovies(searchTerm: string) {
     console.log(results)
     console.log('search', searchTerm)
-    const data = await fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=5a355246`)
+    const data = await fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=${process.env.REACT_APP_API_KEY}`)
     const response = await data.json()
     console.log(response.Search)
     if(response.Search && response.Search.length > 0) {
