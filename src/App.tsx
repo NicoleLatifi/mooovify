@@ -2,28 +2,32 @@ import './App.css';
 import Search from './Search/Search'
 import Results from './Results/Results'
 import Nominations from './Nominations/Nominations'
-import { search } from './helpers/apiCalls'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function App(): JSX.Element {
   const [ results, setResults ] = useState<any>([]);
-  
-  useEffect(() => {
-    const term: string = "rambo"
-    const getMovies = async (searchTerm: string) => {
-      const data = await fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=5a355246`)
-      const response = await data.json()
+  const [ message, setMessage ] = useState<string>("");
+
+  async function getMovies(searchTerm: string) {
+    console.log(results)
+    console.log('search', searchTerm)
+    const data = await fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=5a355246`)
+    const response = await data.json()
+    console.log(response.Search)
+    if(response.Search && response.Search.length > 0) {
       setResults(response.Search)
+      setMessage("")
+    } else {
+      setMessage("No results to display, keep typing!")
     }
-    getMovies(term)
-  }, [])
+  }
 
   return (
     <div>
       <h1>mooovify</h1>
-      <h2>{(results[0])? results[0].Title : "loading" }</h2>
-      <Search />
-      <Results />
+      <Search getMovies={getMovies}/>
+      {message}
+      <Results searchResults={results} />
       <Nominations />
     </div>
   );
