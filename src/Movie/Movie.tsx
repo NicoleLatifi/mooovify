@@ -7,16 +7,32 @@ interface IProps {
   year: number,
 }
 
-class Movie extends Component<IProps> {
+interface IState {
+  isNominated: boolean,
+}
+
+class Movie extends Component<IProps, IState> {
   constructor(props: IProps){
     super(props)
+    this.state = {
+      isNominated: false,
+    }
+  }
+
+  toggleNomination = () => {
+    this.setState({ isNominated: !this.state.isNominated })
   }
 
   render() {
     return (
       <div>
         <h3>{this.props.title} ({this.props.year})</h3>
-        <Button />
+        {!this.state.isNominated &&         
+          <Button 
+            isNominated={this.state.isNominated} 
+            toggleNomination={this.toggleNomination} 
+          />
+        }
       </div>
     );
   }
