@@ -7,13 +7,11 @@ import { useState } from 'react';
 function App(): JSX.Element {
   const [ results, setResults ] = useState<any>([]);
   const [ message, setMessage ] = useState<string>("");
+  const [ nominations, setNominations ] = useState<{id: string, title: string, year: number}[]>([])
 
   async function getMovies(searchTerm: string) {
-    console.log(results)
-    console.log('search', searchTerm)
     const data = await fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=${process.env.REACT_APP_API_KEY}`)
     const response = await data.json()
-    console.log(response.Search)
     if(response.Search && response.Search.length > 0) {
       setResults(response.Search)
       setMessage("")
@@ -22,15 +20,19 @@ function App(): JSX.Element {
     }
   }
 
+  function updateNominations(movie: {id: string, title: string, year: number}) {
+    setNominations(nominations => [...nominations, movie])
+  }
+
   return (
     <div>
       <h1>mooovify</h1>
       <Search getMovies={getMovies}/>
       {message}
-      <Results searchResults={results} />
-      <Nominations />
+      <Results searchResults={results} updateNominations={updateNominations} />
+      <Nominations nominationsToDisplay={nominations} updateNominations={updateNominations} />
     </div>
   );
-}
+};
 
 export default App;

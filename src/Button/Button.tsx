@@ -1,11 +1,34 @@
 import './Button.css';
+import { Component } from 'react';
 
-function Button(): JSX.Element {
-  return (
-    <button>
-      Button
-    </button>
-  );
+interface IProps {
+  isNominated: boolean,
+  toggleNomination: any,
+}
+
+interface IState {
+  buttonText: string
+}
+
+class Button extends Component<IProps, IState> {
+  constructor(props: IProps){
+    super(props)
+    this.state = {
+      buttonText: this.props.isNominated? "Remove" : "Nominate"
+    }
+  }
+
+  onclick = () => {
+    this.props.toggleNomination()
+  }
+
+  render() {
+    return (
+      <button onClick={this.props.toggleNomination}>
+        {this.state.buttonText}
+      </button>
+    );
+  }
 }
 
 export default Button;
