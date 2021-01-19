@@ -3,8 +3,10 @@ import Button from '../Button/Button'
 import { Component } from 'react';
 
 interface IProps {
+  id: string,
   title: string,
   year: number,
+  updateNominations: any,
 }
 
 interface IState {
@@ -21,6 +23,12 @@ class Movie extends Component<IProps, IState> {
 
   toggleNomination = () => {
     this.setState({ isNominated: !this.state.isNominated })
+    const movie = {
+      id: this.props.id, 
+      title: this.props.title, 
+      year: this.props.year
+    }
+    this.props.updateNominations(movie)
   }
 
   render() {
@@ -30,7 +38,7 @@ class Movie extends Component<IProps, IState> {
         {!this.state.isNominated &&         
           <Button 
             isNominated={this.state.isNominated} 
-            toggleNomination={this.toggleNomination} 
+            toggleNomination={this.toggleNomination}
           />
         }
       </div>
