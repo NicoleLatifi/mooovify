@@ -18,6 +18,10 @@ class Button extends Component<IProps, IState> {
     }
   }
 
+  onclick = () => {
+    this.props.toggleNomination()
+  }
+
   render() {
     return (
       <button onClick={this.props.toggleNomination}>
